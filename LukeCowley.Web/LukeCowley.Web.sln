@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LukeCowley.Business", "Luke
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LukeCowley.Data", "LukeCowley.Data\LukeCowley.Data.csproj", "{D27E7350-2F45-4579-9E25-75F1A78CDBE7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{51A19F93-1024-4B00-994A-0E926ACDDA22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LukeCowley.Business.Tests", "LukeCowley.Business.Tests\LukeCowley.Business.Tests.csproj", "{5CCD25CC-F556-4DF5-9A02-4CC707FEEA62}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,9 +31,16 @@ Global
 		{D27E7350-2F45-4579-9E25-75F1A78CDBE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D27E7350-2F45-4579-9E25-75F1A78CDBE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D27E7350-2F45-4579-9E25-75F1A78CDBE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CCD25CC-F556-4DF5-9A02-4CC707FEEA62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CCD25CC-F556-4DF5-9A02-4CC707FEEA62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CCD25CC-F556-4DF5-9A02-4CC707FEEA62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CCD25CC-F556-4DF5-9A02-4CC707FEEA62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5CCD25CC-F556-4DF5-9A02-4CC707FEEA62} = {51A19F93-1024-4B00-994A-0E926ACDDA22}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CDF05D0D-C606-4487-9B12-0879A281BB46}
