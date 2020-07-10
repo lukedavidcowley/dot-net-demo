@@ -1,6 +1,8 @@
-﻿namespace LukeCowley.Business.Models
+﻿using Newtonsoft.Json;
+
+namespace LukeCowley.Business.Models
 {
-    public class Metric : ModelBase
+    public struct Metric
     {
         public double Average { get; set; }
         public int DataPointCount { get; set; }

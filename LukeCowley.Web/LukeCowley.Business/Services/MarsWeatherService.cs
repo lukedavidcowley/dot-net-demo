@@ -9,17 +9,17 @@ namespace LukeCowley.Business.Services
 {
     public class MarsWeatherService : IMarsWeatherService
     {
-        private readonly IRepository<WeatherProfile> _weatherRepository;
+        private readonly IRepository<Sol> _solRepository;
         private readonly IMarsWeatherDataProvider _weatherDataProvider;
-        public MarsWeatherService(IRepository<WeatherProfile> repository, IMarsWeatherDataProvider dataProvider)
+        public MarsWeatherService(IRepository<Sol> repository, IMarsWeatherDataProvider dataProvider)
         {
-            _weatherRepository = repository;
+            _solRepository = repository;
             _weatherDataProvider = dataProvider;
         }
 
-        public async Task<IEnumerable<WeatherProfile>> GetWeatherProfileAsync()
+        public async Task<IEnumerable<Sol>> GetSolsAsync()
         {
-            return await _weatherRepository.GetAsync();
+            return await _solRepository.GetAsync();
         }
 
         public async Task<bool> UpdateWeatherAsync()
