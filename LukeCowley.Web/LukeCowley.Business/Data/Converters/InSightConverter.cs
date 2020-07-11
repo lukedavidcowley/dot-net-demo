@@ -50,10 +50,10 @@ namespace LukeCowley.Business.Data.Converters
                         profile.WindDirection = (WindDirection)(Enum.Parse(typeof(WindDirection), result["most_common"]["compass_point"].Value<string>()));
                     }
                 }
-
+                if (!int.TryParse(obj.ToString(), out var number)) continue;
                 var sol = new Sol
                 {
-                    Name = obj.ToString(), 
+                    Number = number, 
                     StartDate = data["First_UTC"].Value<DateTime>(),
                     EndDate = data["Last_UTC"].Value<DateTime>(),
                     WeatherProfile = profile

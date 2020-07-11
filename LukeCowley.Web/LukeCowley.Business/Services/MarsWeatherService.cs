@@ -1,8 +1,8 @@
 ﻿using LukeCowley.Business.Data;
 using LukeCowley.Business.Data.Providers;
 using LukeCowley.Business.Models;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace LukeCowley.Business.Services
@@ -19,13 +19,21 @@ namespace LukeCowley.Business.Services
 
         public async Task<IEnumerable<Sol>> GetSolsAsync()
         {
-            return await _solRepository.GetAsync();
+            return (await _solRepository.GetAsync())
+                .OrderByDescending(s => s.Number)
+                .Take(7)
+                .ToList();
         }
 
         public async Task<bool> UpdateWeatherAsync()
         {
-            return await _solRepository
-                .UpdateAsync(await _weatherDataProvider.GetRecentSolsAsync());
+            if(await _solRepository
+                .UpdateAsync(await _weatherDataProvider.GetRecentSolsAsync()))
+            {
+                await _solRepository.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
     }
 }

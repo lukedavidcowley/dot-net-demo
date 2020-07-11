@@ -15,6 +15,7 @@ namespace LukeCowley.Business.Data
         Task<bool> UpdateAsync(T model);
         Task<bool> UpdateAsync(IEnumerable<T> models);
         Task<bool> DeleteAsync();
+        Task<int> SaveChangesAsync();
 
     }
 }
