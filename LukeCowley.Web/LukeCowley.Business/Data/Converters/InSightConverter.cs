@@ -53,6 +53,7 @@ namespace LukeCowley.Business.Data.Converters
 
                 var sol = new Sol
                 {
+                    Name = obj.ToString(), 
                     StartDate = data["First_UTC"].Value<DateTime>(),
                     EndDate = data["Last_UTC"].Value<DateTime>(),
                     WeatherProfile = profile
