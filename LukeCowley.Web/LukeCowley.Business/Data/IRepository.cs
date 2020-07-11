@@ -13,6 +13,8 @@ namespace LukeCowley.Business.Data
         Task<T> GetByIdAsync(Guid Id);
         Task<IQueryable<T>> GetAsync();
         Task<bool> UpdateAsync(T model);
+        Task<bool> UpdateAsync(IEnumerable<T> models);
         Task<bool> DeleteAsync();
+
     }
 }

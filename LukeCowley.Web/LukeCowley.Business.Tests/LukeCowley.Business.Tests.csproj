@@ -22,4 +22,8 @@
     <ProjectReference Include="..\LukeCowley.Business\LukeCowley.Business.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Providers\" />
+  </ItemGroup>
+
 </Project>

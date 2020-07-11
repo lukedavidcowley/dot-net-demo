@@ -73,14 +73,14 @@ namespace LukeCowley.Business.Data.Converters
             {
                 metric = new Metric
                 {
-                    Average = token["av"]?.Value<double>() ?? throw new Exception("no av prop"),
-                    DataPointCount = token["ct"]?.Value<int>() ?? throw new Exception("no ct prop"),
-                    Maximum = token["mx"]?.Value<double>() ?? throw new Exception("no mx prop"),
-                    Minimum = token["mn"]?.Value<double>() ?? throw new Exception("no mn prop")
+                    Average = token["av"]?.Value<double>() ?? throw new Exception("av property doesn't exist"),
+                    DataPointCount = token["ct"]?.Value<int>() ?? throw new Exception("ct property doesn't exist"),
+                    Maximum = token["mx"]?.Value<double>() ?? throw new Exception("mx property doesn't exist"),
+                    Minimum = token["mn"]?.Value<double>() ?? throw new Exception("mn property doesn't exist")
                 };
                 return true;
             }
-            catch(Exception ex)
+            catch
             {
                 metric = default;
                 return false;

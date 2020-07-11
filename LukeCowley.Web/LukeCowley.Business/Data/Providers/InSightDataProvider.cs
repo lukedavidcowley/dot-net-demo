@@ -1,11 +1,9 @@
-﻿using LukeCowley.Business.Data.Providers;
+﻿using LukeCowley.Business.Data.Converters;
+using LukeCowley.Business.Data.Providers;
 using LukeCowley.Business.Models;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LukeCowley.Business.Data.Providers
@@ -28,10 +26,7 @@ namespace LukeCowley.Business.Data.Providers
 
         public async Task<IEnumerable<Sol>> GetRecentSolsAsync()
         {
-            var json = GetData();
-            var obj = new JObject(json);
-            //ar test = JsonConvert.DeserializeObject<IEnumerable<Sol>>(GetData(), )
-            throw new NotImplementedException();
+            return JsonConvert.DeserializeObject<IEnumerable<Sol>>(await GetData(), new InSightConverter());
         }
     }
 }

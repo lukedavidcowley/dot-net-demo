@@ -24,8 +24,8 @@ namespace LukeCowley.Business.Services
 
         public async Task<bool> UpdateWeatherAsync()
         {
-            var sols = await _weatherDataProvider.GetRecentSolsAsync();
-            throw new NotImplementedException();
+            return await _solRepository
+                .UpdateAsync(await _weatherDataProvider.GetRecentSolsAsync());
         }
     }
 }
