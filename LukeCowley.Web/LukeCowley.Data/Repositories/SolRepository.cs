@@ -9,6 +9,7 @@ namespace LukeCowley.Data.Repositories
 {
     public class SolRepository : IRepository<Business.Models.Sol>
     {
+        public 
         public Task<Guid> CreateAsync(Business.Models.Sol model)
         {
             throw new NotImplementedException();
