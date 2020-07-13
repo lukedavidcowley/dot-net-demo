@@ -19,16 +19,16 @@ namespace LukeCowley.Business.Services
 
         public async Task<IEnumerable<Sol>> GetSolsAsync()
         {
-            return (await _solRepository.GetAsync())
+            return await _solRepository.GetQueryable()
                 .OrderByDescending(s => s.Number)
                 .Take(7)
-                .ToList();
+                .ToListAsync();
         }
 
         public async Task<bool> UpdateWeatherAsync()
         {
             if(await _solRepository
-                .UpdateAsync(await _weatherDataProvider.GetRecentSolsAsync()))
+                .CreateOrUpdateAsync(await _weatherDataProvider.GetRecentSolsAsync()))
             {
                 await _solRepository.SaveChangesAsync();
                 return true;
