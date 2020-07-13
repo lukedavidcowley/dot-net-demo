@@ -17,9 +17,9 @@ namespace LukeCowley.Data.Entities
 
         public static explicit operator Business.Models.Sol(Sol sol)
         {
-            var pressure = GetMostRecentReadingByKey(sol.Readings, AcceptedMetricKeys.PRE);
-            var temperature = GetMostRecentReadingByKey(sol.Readings, AcceptedMetricKeys.AT);
-            var windSpeed = GetMostRecentReadingByKey(sol.Readings, AcceptedMetricKeys.HWS);
+            var pressure = GetMostRecentReadingByKey(sol.Readings, MetricKeys.Pressure);
+            var temperature = GetMostRecentReadingByKey(sol.Readings, MetricKeys.Temperature);
+            var windSpeed = GetMostRecentReadingByKey(sol.Readings, MetricKeys.WindSpeed);
 
             return new Business.Models.Sol
             {
@@ -54,10 +54,10 @@ namespace LukeCowley.Data.Entities
             };
         }
 
-        private static SensorReading GetMostRecentReadingByKey(ICollection<SensorReading> readings, AcceptedMetricKeys key)
+        private static SensorReading GetMostRecentReadingByKey(ICollection<SensorReading> readings, MetricKeys key)
         {
             return readings
-                .Where(r => (AcceptedMetricKeys)Enum.Parse(typeof(AcceptedMetricKeys), r.Key) == key)
+                .Where(r => r.Key.ToMetricKey() == key)
                 .OrderByDescending(r => r.UpdatedOn)
                 .FirstOrDefault();
         }

@@ -17,7 +17,7 @@ namespace LukeCowley.Business.Services
             _weatherDataProvider = dataProvider;
         }
 
-        public async Task<IEnumerable<Sol>> GetSols()
+        public async Task<IEnumerable<Sol>> GetSolsAsync()
         {
             return (await _solRepository.GetAsync())
                 .Take(7)

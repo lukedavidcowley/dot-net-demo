@@ -32,6 +32,7 @@ namespace LukeCowley.Data.Repositories
 
         public async Task<bool> CreateOrUpdateAsync(Business.Models.Sol model)
         {
+            
             AddSolToContext(model);
             return (await _context.SaveChangesAsync()) > 0;
         }
@@ -64,6 +65,9 @@ namespace LukeCowley.Data.Repositories
             sol.StartDate = model.StartDate;
             sol.EndDate = model.EndDate;
             sol.AverageWindDirection = model.WeatherProfile.WindDirection;
+            AddMetricToSol(sol, model.WeatherProfile.Pressure, MetricKeys.Pressure.ToKeyString());
+            AddMetricToSol(sol, model.WeatherProfile.Temperature, MetricKeys.Temperature.ToKeyString());
+            AddMetricToSol(sol, model.WeatherProfile.WindSpeed, MetricKeys.WindSpeed.ToKeyString());
 
             if (sol.Id != default) _context.Update(sol);
             else _context.Add(sol);
