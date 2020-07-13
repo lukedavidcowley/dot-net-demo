@@ -1,5 +1,7 @@
 ﻿using LukeCowley.Business.Data;
+using LukeCowley.Business.Models;
 using LukeCowley.Data.Contexts;
+using LukeCowley.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace LukeCowley.Data.Repositories
 {
-    public class SolWeekRepository : IRepository<Business.Models.Sol>
+    public class SolWeekRepository : IRepository<Business.Models.Sol>, IDisposable
     {
         private readonly MarsWeatherContext _context;
         public SolWeekRepository(MarsWeatherContext context)
@@ -17,24 +19,72 @@ namespace LukeCowley.Data.Repositories
             _context = context;
         }
 
-        public IQueryable<Business.Models.Sol> Get()
+        public async Task<IEnumerable<Business.Models.Sol>> GetAsync()
         {
-            return _context.Sols.Take(7).Cast<Business.Models.Sol>();
-        } 
+            return (await _context.Sols.Take(7).ToListAsync())
+                .Cast<Business.Models.Sol>();
+        }
 
         public async Task<Business.Models.Sol> GetByIdAsync(Guid id)
         {
             return (Business.Models.Sol)await _context.Sols.FirstOrDefaultAsync(s => s.Id == id);
         }
 
-        public Task<bool> CreateOrUpdate(Business.Models.Sol model)
+        public async Task<bool> CreateOrUpdateAsync(Business.Models.Sol model)
         {
-            throw new NotImplementedException();
+            AddSolToContext(model);
+            return (await _context.SaveChangesAsync()) > 0;
         }
 
-        public Task<int> CreateOrUpdate(IEnumerable<Business.Models.Sol> models)
+        public async Task<int> CreateOrUpdateAsync(IEnumerable<Business.Models.Sol> models)
         {
-            throw new NotImplementedException();
+            foreach(var model in models)
+            {
+                AddSolToContext(model);
+            }
+            return await _context.SaveChangesAsync();
+        }
+
+        public void Dispose()
+        {
+            _context.Dispose();
+        }
+
+        private void AddSolToContext(Business.Models.Sol model)
+        {
+            if (!model.IsValid()) return;
+            var sol = _context.Sols.FirstOrDefault(s => s.Number == model.Number) ??
+                new Entities.Sol
+                {
+                    Number = model.Number,
+                    CreatedOn = DateTime.Now,
+                };
+
+            sol.UpdatedOn = DateTime.Now;
+            sol.StartDate = model.StartDate;
+            sol.EndDate = model.EndDate;
+            sol.AverageWindDirection = model.WeatherProfile.WindDirection;
+
+            if (sol.Id != default) _context.Update(sol);
+            else _context.Add(sol);
+        }
+
+        private static bool AddMetricToSol(Entities.Sol sol, Metric metric, string key)
+        {
+            if (!metric.IsValid()) return false;
+            var count = sol.Readings.Count;
+            sol.Readings.Add(new SensorReading
+            {
+                Key = key,
+                CreatedOn = DateTime.Now,
+                Average = metric.Average,
+                DataPointCount = metric.DataPointCount,
+                Sol = sol,
+                Maximum = metric.Maximum,
+                Minimum = metric.Minimum,
+                UpdatedOn = DateTime.Now
+            });
+            return ++count == sol.Readings.Count;
         }
     }
 }

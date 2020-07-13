@@ -13,6 +13,8 @@ namespace LukeCowley.Data.Entities
         public WindDirection AverageWindDirection { get; set; }
         public ICollection<SensorReading> Readings { get; set; } = new List<SensorReading>();
 
+        public Sol() { }
+
         public static explicit operator Business.Models.Sol(Sol sol)
         {
             var pressure = GetMostRecentReadingByKey(sol.Readings, AcceptedMetricKeys.PRE);

@@ -6,5 +6,9 @@ namespace LukeCowley.Business.Models
 {
     public abstract class ModelBase
     {
+        public virtual bool IsValid()
+        {
+            return true;
+        }
     }
 }

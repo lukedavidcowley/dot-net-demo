@@ -8,7 +8,7 @@ namespace LukeCowley.Business.Services
 {
     public interface IMarsWeatherService
     {
-        Task<IEnumerable<Sol>> GetSolsAsync();
+        Task<IEnumerable<Sol>> GetSols();
         Task<bool> UpdateWeatherAsync();
     }
 }

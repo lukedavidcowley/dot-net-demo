@@ -9,8 +9,8 @@ namespace LukeCowley.Business.Data
 {
     public interface IRepository<T> where T : ModelBase
     {
-        IQueryable<T> Get();
-        Task<bool> CreateOrUpdate(T model);
-        Task<int> CreateOrUpdate(IEnumerable<T> models);
+        Task<IEnumerable<T>> GetAsync();
+        Task<bool> CreateOrUpdateAsync(T model);
+        Task<int> CreateOrUpdateAsync(IEnumerable<T> models);
     }
 }

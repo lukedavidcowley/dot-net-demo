@@ -6,5 +6,7 @@ namespace LukeCowley.Data.Contexts
     public class MarsWeatherContext : DbContext
     {
         public DbSet<Sol> Sols { get; set; }
+
+        public MarsWeatherContext(DbContextOptions<MarsWeatherContext> options) : base(options) { }
     }
 }

@@ -2,7 +2,7 @@
 {
     public class SensorReading : EntityBase
     {
-        public Sol Date { get; set; }
+        public Sol Sol { get; set; }
         public string Key { get; set; }
         public double Average { get; set; }
         public int DataPointCount { get; set; }

@@ -2,7 +2,7 @@
 
 namespace LukeCowley.Business.Models
 {
-    public struct Metric
+    public class Metric : ModelBase
     {
         public double Average { get; set; }
         public int DataPointCount { get; set; }

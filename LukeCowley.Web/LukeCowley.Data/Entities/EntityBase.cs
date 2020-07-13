@@ -7,5 +7,10 @@ namespace LukeCowley.Data.Entities
         public Guid Id { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime UpdatedOn { get; set; }
+
+        public EntityBase()
+        {
+            UpdatedOn = DateTime.Now;
+        }
     }
 }

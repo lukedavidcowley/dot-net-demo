@@ -10,5 +10,13 @@ namespace LukeCowley.Business.Models
         public Metric WindSpeed { get; set; }
         public Metric Pressure { get; set; }
         public WindDirection WindDirection { get; set; }
+
+        public override bool IsValid()
+        {
+            return
+                Temperature.IsValid() &&
+                WindSpeed.IsValid() &&
+                Pressure.IsValid();
+        }
     }
 }

@@ -10,5 +10,14 @@ namespace LukeCowley.Business.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public WeatherProfile WeatherProfile { get; set; }
+
+        public override bool IsValid()
+        {
+            return
+                Number != default &&
+                StartDate != default &&
+                EndDate != default &&
+                WeatherProfile.IsValid();
+        }
     }
 }

@@ -17,23 +17,18 @@ namespace LukeCowley.Business.Services
             _weatherDataProvider = dataProvider;
         }
 
-        public async Task<IEnumerable<Sol>> GetSolsAsync()
+        public async Task<IEnumerable<Sol>> GetSols()
         {
-            return await _solRepository.GetQueryable()
-                .OrderByDescending(s => s.Number)
+            return (await _solRepository.GetAsync())
                 .Take(7)
-                .ToListAsync();
+                .OrderByDescending(s => s.Number)
+                .ToList();
         }
 
         public async Task<bool> UpdateWeatherAsync()
         {
-            if(await _solRepository
-                .CreateOrUpdateAsync(await _weatherDataProvider.GetRecentSolsAsync()))
-            {
-                await _solRepository.SaveChangesAsync();
-                return true;
-            }
-            return false;
+            var data = await _weatherDataProvider.GetRecentSolsAsync();
+            return await _solRepository.CreateOrUpdateAsync(data) == data.Count();
         }
     }
 }
