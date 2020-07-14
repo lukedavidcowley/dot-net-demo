@@ -15,6 +15,11 @@ namespace LukeCowley.Data.Entities
 
         public Sol() : base() { }
 
+        public static explicit operator Sol(Business.Models.Sol sol)
+        {
+            return null;
+        }
+
         public static explicit operator Business.Models.Sol(Sol sol)
         {
             var pressure = GetMostRecentReadingByKey(sol.Readings, MetricKeys.Pressure);
@@ -30,25 +35,25 @@ namespace LukeCowley.Data.Entities
                 {
                     Pressure = new Metric
                     {
-                        Average = pressure.Average,
-                        DataPointCount = pressure.DataPointCount,
-                        Maximum = pressure.Maximum,
-                        Minimum = pressure.Minimum
+                        Average = pressure?.Average ?? default,
+                        DataPointCount = pressure?.DataPointCount ?? default,
+                        Maximum = pressure?.Maximum ?? default,
+                        Minimum = pressure?.Minimum ?? default
                     },
                     Temperature = new Metric
                     {
-                        Average = temperature.Average,
-                        DataPointCount = temperature.DataPointCount,
-                        Maximum = temperature.Maximum,
-                        Minimum = temperature.Minimum
+                        Average = temperature?.Average ?? default,
+                        DataPointCount = temperature?.DataPointCount ?? default,
+                        Maximum = temperature?.Maximum ?? default,
+                        Minimum = temperature?.Minimum ?? default
                     },
                     WindDirection = sol.AverageWindDirection,
                     WindSpeed = new Metric
                     {
-                        Average = windSpeed.Average,
-                        DataPointCount = windSpeed.DataPointCount,
-                        Maximum = windSpeed.Maximum,
-                        Minimum = windSpeed.Minimum
+                        Average = windSpeed?.Average ?? default, 
+                        DataPointCount = windSpeed?.DataPointCount ?? default,
+                        Maximum = windSpeed?.Maximum ?? default,
+                        Minimum = windSpeed?.Minimum ?? default
                     }
                 }
             };

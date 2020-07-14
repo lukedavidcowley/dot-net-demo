@@ -22,7 +22,7 @@ namespace LukeCowley.Business.Tests.Services
             IMarsWeatherService service = new MarsWeatherService(repo, provider);
 
             //act
-            var sols = await service.GetSolsAsync();
+            var sols = await service.GetSolWeekAsync();
 
             //assert
             Assert.IsTrue(sols.Count() == 0);
@@ -39,7 +39,7 @@ namespace LukeCowley.Business.Tests.Services
             IMarsWeatherService service = new MarsWeatherService(repo, provider);
 
             //act
-            var sols = await service.GetSolsAsync();
+            var sols = await service.GetSolWeekAsync();
 
             //assert
             Assert.IsTrue(sols.Any());

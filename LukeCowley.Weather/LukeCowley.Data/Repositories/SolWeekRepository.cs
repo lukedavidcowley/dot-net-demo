@@ -22,8 +22,9 @@ namespace LukeCowley.Data.Repositories
 
         public async Task<IEnumerable<Business.Models.Sol>> GetAsync()
         {
-            return (await _context.Sols.Take(7).ToListAsync())
-                .Cast<Business.Models.Sol>();
+            return _context.Sols
+                .Cast<Business.Models.Sol>()
+                .Take(7);
         }
 
         public async Task<Business.Models.Sol> GetByIdAsync(Guid id)
