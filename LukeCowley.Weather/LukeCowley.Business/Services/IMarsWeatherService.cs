@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LukeCowley.Business.Services
 {
-    public interface IMarsWeatherService
+    public interface IMarsWeatherService 
     {
         Task<IEnumerable<Sol>> GetSolsAsync();
         Task<bool> UpdateWeatherAsync();

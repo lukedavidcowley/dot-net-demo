@@ -8,5 +8,7 @@
         public int DataPointCount { get; set; }
         public double Minimum { get; set; }
         public double Maximum { get; set; }
+
+        public SensorReading() : base() { }
     }
 }

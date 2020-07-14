@@ -14,9 +14,9 @@ namespace LukeCowley.Business.Models
         public override bool IsValid()
         {
             return
-                Temperature.IsValid() &&
-                WindSpeed.IsValid() &&
-                Pressure.IsValid();
+                (Temperature?.IsValid() ?? false) &&
+                (WindSpeed?.IsValid() ?? false) &&
+                (Pressure?.IsValid() ?? false);
         }
     }
 }

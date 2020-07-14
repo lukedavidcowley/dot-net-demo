@@ -17,6 +17,7 @@ namespace LukeCowley.Business.Data.Converters
             var sols = new List<Sol>();
 
             var token = JObject.Load(reader);
+            var arr = token["sol_keys"];
             foreach (var obj in (JArray)token["sol_keys"])
             {
                 var key = obj.Value<string>();
@@ -47,7 +48,15 @@ namespace LukeCowley.Business.Data.Converters
                     }
                     else if(prop.Name == "WD")
                     {
-                        profile.WindDirection = (WindDirection)(Enum.Parse(typeof(WindDirection), result["most_common"]["compass_point"].Value<string>()));
+                        try
+                        {
+                            profile.WindDirection = (WindDirection)(Enum.Parse(typeof(WindDirection), result["most_common"]?["compass_point"]?.Value<string>()));
+                        }
+                        catch 
+                        {
+
+                        }
+                        
                     }
                 }
                 if (!int.TryParse(obj.ToString(), out var number)) continue;

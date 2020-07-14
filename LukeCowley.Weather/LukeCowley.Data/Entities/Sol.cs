@@ -13,7 +13,7 @@ namespace LukeCowley.Data.Entities
         public WindDirection AverageWindDirection { get; set; }
         public ICollection<SensorReading> Readings { get; set; } = new List<SensorReading>();
 
-        public Sol() { }
+        public Sol() : base() { }
 
         public static explicit operator Business.Models.Sol(Sol sol)
         {

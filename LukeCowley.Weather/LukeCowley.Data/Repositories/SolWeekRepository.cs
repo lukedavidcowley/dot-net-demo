@@ -1,4 +1,5 @@
-﻿using LukeCowley.Business.Data;
+﻿
+using LukeCowley.Business.Data;
 using LukeCowley.Business.Models;
 using LukeCowley.Data.Contexts;
 using LukeCowley.Data.Entities;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace LukeCowley.Data.Repositories
 {
-    public class SolWeekRepository : IRepository<Business.Models.Sol>, IDisposable
+    public class SolWeekRepository : IRepository<Business.Models.Sol>
     {
         private readonly MarsWeatherContext _context;
         public SolWeekRepository(MarsWeatherContext context)
@@ -39,16 +40,11 @@ namespace LukeCowley.Data.Repositories
 
         public async Task<int> CreateOrUpdateAsync(IEnumerable<Business.Models.Sol> models)
         {
-            foreach(var model in models)
+            foreach (var model in models)
             {
                 AddSolToContext(model);
             }
             return await _context.SaveChangesAsync();
-        }
-
-        public void Dispose()
-        {
-            _context.Dispose();
         }
 
         private void AddSolToContext(Business.Models.Sol model)
@@ -60,7 +56,11 @@ namespace LukeCowley.Data.Repositories
                     Number = model.Number,
                     CreatedOn = DateTime.Now,
                 };
-
+            if (sol == null) sol = new Entities.Sol
+            {
+                Number = model.Number,
+                CreatedOn = DateTime.Now,
+            };
             sol.UpdatedOn = DateTime.Now;
             sol.StartDate = model.StartDate;
             sol.EndDate = model.EndDate;
