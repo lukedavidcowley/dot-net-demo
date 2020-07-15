@@ -1,22 +1,26 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router';
-import { Layout } from './components/Layout';
+import { Provider } from 'react-redux';
 import { Home } from './components/Home';
-import { FetchData } from './components/FetchData';
-import { Counter } from './components/Counter';
+import { store } from './store';
+import { updateMarsWeather } from './actions/creators/mars-weather-action-creators'
 
 import './custom.css'
 
 export default class App extends Component {
   static displayName = App.name;
 
+  async componentDidMount() {
+    const response = await fetch('https://localhost:44315/api/v1/marsweather/lastweek');
+    const data = await response.json(); 
+    store.dispatch(updateMarsWeather(data));
+  }
+  
   render () {
     return (
-      <Layout>
-        <Route exact path='/' component={Home} />
-        <Route path='/counter' component={Counter} />
-        <Route path='/fetch-data' component={FetchData} />
-      </Layout>
+      <Provider store={store}>
+          <Route exact path='/' component={Home} />
+      </Provider>
     );
   }
 }

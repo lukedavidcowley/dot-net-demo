@@ -7,8 +7,9 @@ import registerServiceWorker from './registerServiceWorker';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');
-
-ReactDOM.render(
+console.log("index");
+//const getMarsWeatherData = require('./data/mars-weather-data-provider'); 
+ReactDOM.render( 
   <BrowserRouter basename={baseUrl}>
     <App />
   </BrowserRouter>,

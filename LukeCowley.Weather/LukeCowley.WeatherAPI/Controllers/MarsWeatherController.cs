@@ -9,8 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LukeCowley.WeatherAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
+    [ResponseCache(Duration = 12 * 60 * 60)]
     public class MarsWeatherController : ControllerBase
     {
         private readonly IMarsWeatherService _marsWeatherService; 
@@ -19,7 +20,7 @@ namespace LukeCowley.WeatherAPI.Controllers
             _marsWeatherService = marsService;
         }
 
-        [HttpGet("Week")]
+        [HttpGet("LastWeek")]
         public async Task<IEnumerable<Sol>> GetSolWeek()
         {
             return await _marsWeatherService.GetSolWeekAsync();

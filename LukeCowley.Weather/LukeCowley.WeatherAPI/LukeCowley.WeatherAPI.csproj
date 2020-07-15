@@ -11,6 +11,10 @@
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Hangfire.AspNetCore" Version="1.7.11" />
     <PackageReference Include="HangFire.Core" Version="1.7.11" />

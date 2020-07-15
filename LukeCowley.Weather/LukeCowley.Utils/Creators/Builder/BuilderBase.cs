@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LukeCowley.Utils.Creators.Builder
+﻿namespace LukeCowley.Utils.Creators.Builder
 {
     public abstract class BuilderBase<T> : ICreator<T>
     {
