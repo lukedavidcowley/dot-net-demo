@@ -11,7 +11,7 @@ namespace LukeCowley.Data.Entities
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public WindDirection AverageWindDirection { get; set; }
-        public ICollection<SensorReading> Readings { get; set; } = new List<SensorReading>();
+        public ICollection<SensorReading> Readings { get; set; }
 
         public Sol() : base() { }
 

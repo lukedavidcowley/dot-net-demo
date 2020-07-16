@@ -70,7 +70,7 @@ namespace LukeCowley.WeatherAPI
                 ServerName = "Test Server"
             };
 
-            var marsService = services.BuildServiceProvider().GetService<IMarsWeatherService>();
+            //var marsService = services.BuildServiceProvider().GetService<IMarsWeatherService>();
 
             JobStorage.Current = sqlStorage;
             
@@ -117,7 +117,8 @@ namespace LukeCowley.WeatherAPI
 
             app.UseHangfireDashboard();
             BackgroundJob.Enqueue(() => new WeatherDataRetrivalService(provider.GetService<IMarsWeatherService>()).UpdateMarsWeather());
-            //app.UseHangfireServer();
+            RecurringJob.AddOrUpdate(() => new WeatherDataRetrivalService(provider.GetService<IMarsWeatherService>()).UpdateMarsWeather(), Cron.Hourly);
+            app.UseHangfireServer();
 
         }
     }

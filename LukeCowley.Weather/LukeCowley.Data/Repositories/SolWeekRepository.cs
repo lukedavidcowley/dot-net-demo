@@ -22,9 +22,12 @@ namespace LukeCowley.Data.Repositories
 
         public async Task<IEnumerable<Business.Models.Sol>> GetAsync()
         {
-            return _context.Sols
+            var hardTest = _context.Sols.ToList();
+            var test = _context.Sols
+                .Include(s => s.Readings)
                 .Cast<Business.Models.Sol>()
                 .Take(7);
+            return test;
         }
 
         public async Task<Business.Models.Sol> GetByIdAsync(Guid id)
@@ -41,11 +44,18 @@ namespace LukeCowley.Data.Repositories
 
         public async Task<int> CreateOrUpdateAsync(IEnumerable<Business.Models.Sol> models)
         {
-            foreach (var model in models)
+            try
             {
-                AddSolToContext(model);
+                foreach (var model in models)
+                {
+                    AddSolToContext(model);
+                }
+                return await _context.SaveChangesAsync();
             }
-            return await _context.SaveChangesAsync();
+            catch
+            {
+                return 0;
+            }           
         }
 
         private void AddSolToContext(Business.Models.Sol model)
@@ -56,6 +66,7 @@ namespace LukeCowley.Data.Repositories
                 {
                     Number = model.Number,
                     CreatedOn = DateTime.Now,
+                    Readings = new List<SensorReading>()
                 };
             if (sol == null) sol = new Entities.Sol
             {
