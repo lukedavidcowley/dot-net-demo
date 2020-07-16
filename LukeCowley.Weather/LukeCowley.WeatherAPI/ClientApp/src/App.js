@@ -9,7 +9,6 @@ import './custom.css'
 
 export default class App extends Component {
   static displayName = App.name;
-
   async componentDidMount() {
     const response = await fetch('https://localhost:44315/api/v1/marsweather/lastweek');
     const data = await response.json(); 

@@ -11,7 +11,7 @@ namespace LukeCowley.Data.Entities
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public WindDirection AverageWindDirection { get; set; }
-        public ICollection<SensorReading> Readings { get; set; }
+        public virtual ICollection<SensorReading> Readings { get; set; }
 
         public Sol() : base() { }
 
@@ -20,7 +20,8 @@ namespace LukeCowley.Data.Entities
             return null;
         }
 
-        public static explicit operator Business.Models.Sol(Sol sol)
+
+        public static implicit operator Business.Models.Sol(Sol sol)
         {
             var pressure = GetMostRecentReadingByKey(sol.Readings, MetricKeys.Pressure);
             var temperature = GetMostRecentReadingByKey(sol.Readings, MetricKeys.Temperature);
@@ -61,7 +62,7 @@ namespace LukeCowley.Data.Entities
 
         private static SensorReading GetMostRecentReadingByKey(ICollection<SensorReading> readings, MetricKeys key)
         {
-            return readings
+            return readings?
                 .Where(r => r.Key.ToMetricKey() == key)
                 .OrderByDescending(r => r.UpdatedOn)
                 .FirstOrDefault();

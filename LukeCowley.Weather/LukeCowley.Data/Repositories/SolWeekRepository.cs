@@ -1,5 +1,4 @@
-﻿
-using LukeCowley.Business.Data;
+﻿using LukeCowley.Business.Data;
 using LukeCowley.Business.Models;
 using LukeCowley.Data.Contexts;
 using LukeCowley.Data.Entities;
@@ -7,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LukeCowley.Data.Repositories
@@ -22,17 +20,22 @@ namespace LukeCowley.Data.Repositories
 
         public async Task<IEnumerable<Business.Models.Sol>> GetAsync()
         {
-            var hardTest = _context.Sols.ToList();
-            var test = _context.Sols
+            var sols = new List<Business.Models.Sol>();
+            var data = await _context.Sols
                 .Include(s => s.Readings)
-                .Cast<Business.Models.Sol>()
-                .Take(7);
-            return test;
+                .Take(7)
+                .ToListAsync();
+            foreach(var sol in data)
+            {
+                sols.Add(sol);
+            }
+            return sols;
+                
         }
 
         public async Task<Business.Models.Sol> GetByIdAsync(Guid id)
         {
-            return (Business.Models.Sol)await _context.Sols.FirstOrDefaultAsync(s => s.Id == id);
+            return await _context.Sols.FirstOrDefaultAsync(s => s.Id == id);
         }
 
         public async Task<bool> CreateOrUpdateAsync(Business.Models.Sol model)
@@ -68,11 +71,7 @@ namespace LukeCowley.Data.Repositories
                     CreatedOn = DateTime.Now,
                     Readings = new List<SensorReading>()
                 };
-            if (sol == null) sol = new Entities.Sol
-            {
-                Number = model.Number,
-                CreatedOn = DateTime.Now,
-            };
+
             sol.UpdatedOn = DateTime.Now;
             sol.StartDate = model.StartDate;
             sol.EndDate = model.EndDate;

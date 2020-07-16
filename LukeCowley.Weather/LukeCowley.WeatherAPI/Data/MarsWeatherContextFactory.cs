@@ -1,10 +1,8 @@
 ﻿using LukeCowley.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace LukeCowley.WeatherAPI.Data
 {
@@ -13,9 +11,17 @@ namespace LukeCowley.WeatherAPI.Data
         // This class is used to help entity framework configure the db during migrations
         public MarsWeatherContext CreateDbContext(string[] args)
         {
-            var builder = new DbContextOptionsBuilder<MarsWeatherContext>();
-            builder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=MarsWeather;Integrated Security=True", b => b.MigrationsAssembly("LukeCowley.WeatherAPI")); //TODO: UserSecrets
-            return new MarsWeatherContext(builder.Options);
+            // Build config
+            IConfiguration config = new ConfigurationBuilder()
+                .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../LukeCowley.WeatherAPI"))
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            // Get connection string
+            var optionsBuilder = new DbContextOptionsBuilder<MarsWeatherContext>();
+            var connectionString = config.GetConnectionString("default");
+            optionsBuilder.UseSqlServer(connectionString, b => b.MigrationsAssembly("LukeCowley.WeatherAPI"));
+            return new MarsWeatherContext(optionsBuilder.Options);
         }
     }
 }

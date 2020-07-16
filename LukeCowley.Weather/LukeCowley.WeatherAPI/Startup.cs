@@ -16,6 +16,7 @@ using Hangfire;
 using System;
 using Microsoft.EntityFrameworkCore;
 using LukeCowley.WeatherAPI.Data;
+using Newtonsoft.Json;
 
 namespace LukeCowley.WeatherAPI
 {
@@ -42,9 +43,9 @@ namespace LukeCowley.WeatherAPI
 
             services.AddDbContext<MarsWeatherContext>(options =>
             {
-                options.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=MarsWeather;Integrated Security=True;MultipleActiveResultSets=True");
+                options.UseSqlServer(Configuration.GetConnectionString("default"));
             });
-            services.AddTransient<IMarsWeatherDataProvider>(s => new InSightDataProvider("IikEzlLMvmy4dPeIoT70cdzsIwvYiGKWjsuKUQCq"));
+            services.AddTransient<IMarsWeatherDataProvider>(s => new InSightDataProvider(Configuration.GetValue<string>("InSightApiKey")));
             services.AddTransient<IRepository<Sol>, SolWeekRepository>();
             services.AddTransient<IMarsWeatherService, MarsWeatherService>();
             
@@ -52,7 +53,7 @@ namespace LukeCowley.WeatherAPI
                .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
                .UseSimpleAssemblyNameTypeSerializer()
                .UseRecommendedSerializerSettings()
-               .UseSqlServerStorage("Data Source=.\\SQLEXPRESS;Initial Catalog=MarsWeather;Integrated Security=True", new SqlServerStorageOptions
+               .UseSqlServerStorage(Configuration.GetConnectionString("default"), new SqlServerStorageOptions
                {
                    CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
                    SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
@@ -64,18 +65,14 @@ namespace LukeCowley.WeatherAPI
             // Add the processing server as IHostedService
             services.AddHangfireServer();
 
-            var sqlStorage = new SqlServerStorage("Data Source=.\\SQLEXPRESS;Initial Catalog=MarsWeather;Integrated Security=True");
+
+            var sqlStorage = new SqlServerStorage(Configuration.GetConnectionString("default"));
             var options = new BackgroundJobServerOptions
             {
                 ServerName = "Test Server"
             };
 
-            //var marsService = services.BuildServiceProvider().GetService<IMarsWeatherService>();
-
             JobStorage.Current = sqlStorage;
-            
-
-            //RecurringJob.AddOrUpdate(() => services.BuildServiceProvider().GetService<IMarsWeatherService>().UpdateWeatherAsync(), Cron.Hourly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -115,10 +112,10 @@ namespace LukeCowley.WeatherAPI
                 }
             });
 
-            app.UseHangfireDashboard();
             BackgroundJob.Enqueue(() => new WeatherDataRetrivalService(provider.GetService<IMarsWeatherService>()).UpdateMarsWeather());
             RecurringJob.AddOrUpdate(() => new WeatherDataRetrivalService(provider.GetService<IMarsWeatherService>()).UpdateMarsWeather(), Cron.Hourly);
             app.UseHangfireServer();
+            app.UseHangfireDashboard();
 
         }
     }
