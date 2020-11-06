@@ -1,4 +1,4 @@
-<a href="https://www.velocityworks.io/home">Velocity Works Coding Demo</a>
+
 # DotNet-Demo
 
 Applicant: Luke Cowley
